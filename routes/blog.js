@@ -11,7 +11,7 @@ const blogmodel = mongoose.model('blog');
 // STEP 16: Insert a blog into 'blog' model
 module.exports.addBlog = function(req, res) {
     let blog = req.body.blog;
-    blog.author = req.session.uname;
+    blog.author = req.session.data.uname;
     blogmodel.create(blog, (err, blog) => {
         if(!err) {
             res.end(JSON.stringify(blog));
@@ -53,8 +53,8 @@ module.exports.addComment = function(req, res) {
 
         let comment = req.body.comment;
         let id = req.params.id;
-
-        comment.commentedBy = req.session.uname;
+        console.log("Commented By: " + req.session.data.uname);
+        comment.commentedBy = req.session.data.uname;
         // Get existing blog by id
         blogmodel.findOne({_id: id}, (err, data) => {
             if(!err) {

@@ -80,15 +80,19 @@ module.exports.login = (req, res) => {
             console.log("Auth Successful");
             // Step 12: Add data to session to be stored in session storage on the 
             // server side. Only session id will be sent to be stored in cookie on browser.
-            req.session.uname = uname;
-            req.session.loggedin = true;
-            res.end(JSON.stringify({resp: 'Auth Successful'}));
+            req.session['data'] = {
+                uname : uname,
+                loggedin: true
+            };
+            req.session.save();
+            console.log("Saved session: " + JSON.stringify(req.session));
+            res.json({'key':'Auth successful'});
 
         }
         else {
             console.log("Auth Unsuccessful");
             res.statusCode = 400;
-            res.end();
+            res.json({'key':'Auth Unsuccessful'});
         }
     });
 };
@@ -98,11 +102,12 @@ module.exports.login = (req, res) => {
 module.exports.logout = (req, res) => {
     // Check if incoming request is from a logged in user,
     // then destroy session
-    if (req.session.uname) {
-        let uname = req.session.uname;
+    if (req.session.data) {
+        let uname = req.session.data.uname;
+        res.statusCode = 200;
+        res.end(JSON.stringify({uname: uname}));
         req.session.destroy((err) => {
             console.log("Destroyed Session and Logged Out");
-            return res.end(JSON.stringify({uname: uname}));
         });
     } else {
         res.statusCode = 401;
