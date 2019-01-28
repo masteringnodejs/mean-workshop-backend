@@ -31,7 +31,8 @@ function createModel(name, schema) {
 
 function connectAndPrepareDB(mongourl, cb) {
 
-    let connUrl = 'mongodb://localhost:27017/bloggerdb';
+    //let connUrl = 'mongodb://localhost:27017/bloggerdb';
+    let connUrl = 'mongodb://gpwsmean:gpwsmean1@ds213715.mlab.com:13715/gpblogger';
     if(mongourl) connUrl = mongourl;
 
     console.log("Mongoose Connection Initiated...");
