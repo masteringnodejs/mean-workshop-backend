@@ -434,6 +434,8 @@ MIT
 ngx-quill
 MIT
 
+@angular/material/snack-bar
+
 zone.js
 MIT
 The MIT License
