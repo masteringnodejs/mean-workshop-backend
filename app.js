@@ -33,7 +33,7 @@ var sessionsettings = {
 db.connectAndPrepareDB(null, () => {
     app.use(session(sessionsettings));
     registerRoutes();
-    app.listen(3000, (req, res) => {
+    app.listen(process.env.PORT || 8080 , (req, res) => {
         console.log("Blogger Server Started...");
     })
 });
