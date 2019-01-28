@@ -6,13 +6,18 @@ var bodyparser = require('body-parser');
 var mongoose = require('mongoose');
 var app = express();
 var cors = require('cors');
+var path = require('path');
 
 app.use(bodyparser.json());
+app.use(express.static('./public'));
+
 var url = require('url');
 const session = require('express-session');
-app.use(cors({origin: [
-    "http://localhost:4200"
-  ], credentials: true}));
+
+// Initially during separate development
+// app.use(cors({origin: [
+//     "http://localhost:4200"
+//   ], credentials: true}));
 
 
 // Step 11: Setup express-session 
@@ -39,7 +44,9 @@ function registerRoutes(){
     let userRoutes = require('./routes/user');
     let blogRoutes = require('./routes/blog');
     
-    app.get('/', (req, res) => { res.end('Hello, Welcome to Blogger!')});
+    app.get('/', (req, res) => { 
+        res.sendFile(path.join(__dirname,'/public/index.html'));
+    });
     app.post('/register', userRoutes.register);
     app.post('/login', userRoutes.login);
     app.post('/logout', isAuthenticated, userRoutes.logout);
